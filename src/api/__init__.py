@@ -1,0 +1,1 @@
+"""FastAPI application for the cyber risk detection system."""

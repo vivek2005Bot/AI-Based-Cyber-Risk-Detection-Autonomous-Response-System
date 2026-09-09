@@ -1,0 +1,114 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller / Py2app
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Environments & Virtual Envs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project Logs & Databases
+logs/
+*.log
+data/cyber_risk.db
+data/*.sqlite
+data/*.db
+
+# Heavy Raw Datasets (Do not commit gigabytes of raw PCAP/CSV to git)
+data/raw/cicids2017/*
+data/raw/unsw_nb15/*
+data/raw/authentication/*
+data/raw/nvd_cve/*
+data/raw/synthetic/
+!data/raw/cicids2017/.gitkeep
+!data/raw/unsw_nb15/.gitkeep
+!data/raw/authentication/.gitkeep
+!data/raw/nvd_cve/.gitkeep
+
+# Saved Model Binaries
+models/*.joblib
+models/*.pkl
+models/*.pt
+models/*.pth
+models/*.onnx
+models/*.npy
+!models/.gitkeep
+
+# Frontend build & node_modules
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*

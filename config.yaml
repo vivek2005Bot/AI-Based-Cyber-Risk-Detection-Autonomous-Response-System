@@ -1,0 +1,414 @@
+# AI-Based Cyber Risk Detection System Configuration
+
+# Data Sources
+data_sources:
+  cicids2017:
+    enabled: true
+    url: "https://www.unb.ca/cic/datasets/ids-2017.html"
+    local_path: "data/raw/cicids2017"
+    files:
+      - "Monday-WorkingHours.csv"
+      - "Tuesday-WorkingHours.csv"
+      - "Wednesday-workingHours.csv"
+      - "Thursday-WorkingHours-Morning-WebAttacks.csv"
+      - "Thursday-WorkingHours-Afternoon-Infilteration.csv"
+      - "Friday-WorkingHours-Morning.csv"
+      - "Friday-WorkingHours-Afternoon-PortScan.csv"
+      - "Friday-WorkingHours-Afternoon-DDos.csv"
+  
+  unsw_nb15:
+    enabled: true
+    url: "https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/"
+    local_path: "data/raw/unsw_nb15"
+    files:
+      - "UNSW_NB15_training-set.csv"
+      - "UNSW_NB15_testing-set.csv"
+      - "UNSW-NB15_1.csv"
+      - "UNSW-NB15_2.csv"
+      - "UNSW-NB15_3.csv"
+      - "UNSW-NB15_4.csv"
+  
+  authentication:
+    enabled: true
+    local_path: "data/raw/authentication"
+    files:
+      - "labelled_training_data.csv"
+      - "labelled_testing_data.csv"
+      - "labelled_validation_data.csv"
+
+  nvd_cve:
+    enabled: true
+    api_url: "https://services.nvd.nist.gov/rest/json/cves/2.0"
+    local_path: "data/raw/nvd_cve"
+    update_frequency_days: 7
+  
+  synthetic:
+    enabled: true
+    local_path: "data/raw/synthetic"
+    authentication_records: 10000
+    endpoint_records: 10000
+    user_behavior_records: 10000
+
+# Data Processing
+preprocessing:
+  missing_value_strategy: "median"  # mean, median, mode, drop
+  outlier_detection: "iqr"  # iqr, zscore, isolation_forest
+  outlier_threshold: 1.5
+  normalization: "standard"  # standard, minmax, robust
+  feature_selection:
+    enabled: true
+    method: "mutual_info"  # mutual_info, chi2, f_classif, rfe
+    n_features: 50
+  dimensionality_reduction:
+    enabled: true
+    method: "pca"  # pca, lda, svd
+    n_components: 0.95  # variance ratio or number of components
+  class_imbalance:
+    enabled: true
+    method: "smote"  # smote, adasyn, borderline_smote, random_oversample, random_undersample
+    sampling_strategy: "auto"
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+
+# Supervised Models
+supervised_models:
+  logistic_regression:
+    enabled: true
+    params:
+      max_iter: 1000
+      class_weight: "balanced"
+      solver: "lbfgs"
+      C: 1.0
+  
+  naive_bayes:
+    enabled: true
+    params:
+      var_smoothing: 1e-9
+  
+  knn:
+    enabled: true
+    params:
+      n_neighbors: 5
+      weights: "distance"
+      metric: "minkowski"
+  
+  svm:
+    enabled: true
+    params:
+      kernel: "rbf"
+      C: 1.0
+      gamma: "scale"
+      class_weight: "balanced"
+      probability: true
+  
+  decision_tree:
+    enabled: true
+    params:
+      max_depth: 10
+      min_samples_split: 5
+      min_samples_leaf: 2
+      class_weight: "balanced"
+      criterion: "gini"
+  
+  random_forest:
+    enabled: true
+    params:
+      n_estimators: 200
+      max_depth: 15
+      min_samples_split: 5
+      min_samples_leaf: 2
+      class_weight: "balanced"
+      n_jobs: -1
+  
+  neural_network:
+    enabled: true
+    params:
+      hidden_layer_sizes: [128, 64, 32]
+      activation: "relu"
+      solver: "adam"
+      alpha: 0.0001
+      learning_rate: "adaptive"
+      max_iter: 500
+      early_stopping: true
+      validation_fraction: 0.1
+
+  pytorch_dnn:
+    enabled: true
+    params:
+      hidden_layer_sizes: [128, 64, 32]
+      learning_rate: 0.001
+      batch_size: 64
+      epochs: 35
+      dropout_rate: 0.2
+      activation: "relu"
+      weight_decay: 0.0001
+      patience: 8
+
+# Unsupervised Models
+unsupervised_models:
+  kmeans:
+    enabled: true
+    params:
+      n_clusters: 5
+      init: "k-means++"
+      n_init: 10
+      max_iter: 300
+      random_state: 42
+  
+  hierarchical_clustering:
+    enabled: true
+    params:
+      n_clusters: 5
+      linkage: "ward"
+      metric: "euclidean"
+  
+  dbscan:
+    enabled: true
+    params:
+      eps: 0.5
+      min_samples: 5
+      metric: "euclidean"
+      n_jobs: -1
+  
+  isolation_forest:
+    enabled: true
+    params:
+      n_estimators: 100
+      contamination: 0.1
+      max_samples: "auto"
+      random_state: 42
+      n_jobs: -1
+  
+  local_outlier_factor:
+    enabled: true
+    params:
+      n_neighbors: 20
+      contamination: 0.1
+      n_jobs: -1
+
+# Dimensionality Reduction
+dimensionality_reduction:
+  pca:
+    enabled: true
+    n_components: 0.95
+    whiten: false
+    random_state: 42
+  
+  lda:
+    enabled: true
+    n_components: null  # min(n_classes - 1, n_features)
+    solver: "svd"
+    shrinkage: null
+  
+  svd:
+    enabled: true
+    n_components: 50
+    algorithm: "randomized"
+    n_iter: 5
+    random_state: 42
+
+# Risk Fusion
+risk_fusion:
+  weights:
+    supervised_prediction: 0.4
+    anomaly_score: 0.3
+    contextual_indicators: 0.3
+  threshold:
+    low: 0.3
+    medium: 0.6
+    high: 0.8
+    critical: 0.9
+  contextual_indicators:
+    vulnerability_severity: true
+    asset_criticality: true
+    threat_intelligence: true
+    historical_incidents: true
+    time_sensitivity: true
+
+# Recommendation System
+recommendation:
+  content_based:
+    enabled: true
+    similarity_metric: "cosine"
+    top_k: 5
+  
+  collaborative:
+    enabled: true
+    method: "matrix_factorization"  # matrix_factorization, knn
+    n_factors: 50
+    n_epochs: 20
+    lr: 0.005
+    reg: 0.02
+  
+  hybrid:
+    enabled: true
+    content_weight: 0.6
+    collaborative_weight: 0.4
+
+# Reinforcement Learning
+reinforcement_learning:
+  q_learning:
+    enabled: true
+    alpha: 0.1  # learning rate
+    gamma: 0.95  # discount factor
+    epsilon: 1.0  # exploration rate
+    epsilon_min: 0.01
+    epsilon_decay: 0.995
+    episodes: 1000
+    max_steps: 100
+  
+  environment:
+    state_space: "continuous"  # continuous, discrete
+    action_space:
+      - "monitor"
+      - "alert"
+      - "block_ip"
+      - "quarantine_host"
+      - "reset_credentials"
+      - "patch_vulnerability"
+      - "investigate"
+      - "escalate"
+    rewards:
+      true_positive: 10
+      false_positive: -5
+      false_negative: -20
+      true_negative: 2
+      action_cost:
+        monitor: -0.1
+        alert: -0.5
+        block_ip: -1
+        quarantine_host: -2
+        reset_credentials: -1
+        patch_vulnerability: -3
+        investigate: -2
+        escalate: -5
+
+# Multi-Agent RL (Advanced)
+multi_agent_rl:
+  enabled: false
+  agents:
+    - name: "network_analyst"
+      focus: "network_traffic"
+    - name: "identity_analyst"
+      focus: "authentication"
+    - name: "endpoint_analyst"
+      focus: "endpoint_behavior"
+    - name: "decision_agent"
+      focus: "response_selection"
+  coordination: "centralized"  # centralized, decentralized
+
+# Hyperparameter Optimization
+optimization:
+  enabled: true
+  method: "bayesian"  # grid, random, bayesian
+  n_trials: 50
+  timeout: 3600
+  cv_folds: 5
+  scoring: "f1_weighted"
+  models_to_optimize:
+    - "random_forest"
+    - "svm"
+    - "neural_network"
+    - "knn"
+
+# Ensemble Methods
+ensemble:
+  enabled: true
+  methods:
+    - "voting"
+    - "stacking"
+    - "bagging"
+  voting_type: "soft"  # hard, soft
+  stacking_meta_learner: "logistic_regression"
+
+# Evaluation
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "roc_auc"
+    - "precision_recall_auc"
+    - "matthews_corrcoef"
+    - "cohen_kappa"
+  cross_validation:
+    enabled: true
+    n_folds: 5
+    stratified: true
+  clustering_metrics:
+    - "silhouette_score"
+    - "calinski_harabasz"
+    - "davies_bouldin"
+  rl_metrics:
+    - "cumulative_reward"
+    - "win_rate"
+    - "avg_episode_length"
+    - "convergence_rate"
+
+# Database
+database:
+  type: "sqlite"  # sqlite, postgresql
+  sqlite_path: "data/cyber_risk.db"
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "cyber_risk"
+    username: "postgres"
+    password: ""
+  pool_size: 5
+  max_overflow: 10
+
+# API
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+  workers: 4
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8501"
+
+# Frontend (Streamlit)
+frontend:
+  host: "0.0.0.0"
+  port: 8501
+  theme:
+    primary_color: "#1f77b4"
+    background_color: "#ffffff"
+    secondary_background_color: "#f0f2f6"
+    text_color: "#262730"
+    font: "sans serif"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/cyber_risk.log"
+  max_bytes: 10485760
+  backup_count: 5
+
+# Experiment Tracking
+experiment_tracking:
+  enabled: true
+  backend: "mlflow"  # mlflow, wandb, tensorboard
+  mlflow:
+    tracking_uri: "file:./mlruns"
+    experiment_name: "cyber_risk_detection"
+  wandb:
+    project: "cyber-risk-detection"
+    entity: null
+
+# Ethical and Privacy
+ethics:
+  bias_check:
+    enabled: true
+    protected_attributes: []
+  privacy:
+    anonymize_data: true
+    differential_privacy: false
+    epsilon: 1.0
+  model_security:
+    adversarial_testing: true
+    robustness_check: true

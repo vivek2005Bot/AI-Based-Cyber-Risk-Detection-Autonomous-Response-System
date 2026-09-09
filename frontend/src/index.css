@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-[#080b11] text-slate-100 antialiased selection:bg-accent-red/30 selection:text-white;
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(255, 51, 102, 0.07) 0px, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(255, 214, 10, 0.05) 0px, transparent 50%),
+            radial-gradient(at 50% 100%, rgba(0, 245, 155, 0.06) 0px, transparent 50%),
+            linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+        min-height: 100vh;
+    }
+}
+
+@layer components {
+    .card {
+        @apply bg-[#0e131f]/80 backdrop-blur-md border border-white/[0.07] rounded-xl p-6 shadow-glass hover:border-white/[0.14] transition-all duration-300;
+    }
+
+    .card-glow-red {
+        @apply card border-accent-red/20 hover:border-accent-red/50 hover:shadow-neon-red;
+    }
+
+    .card-glow-yellow {
+        @apply card border-accent-yellow/20 hover:border-accent-yellow/50 hover:shadow-neon-yellow;
+    }
+
+    .card-glow-green {
+        @apply card border-accent-green/20 hover:border-accent-green/50 hover:shadow-neon-green;
+    }
+
+    .stat-card {
+        @apply card flex flex-col gap-2 relative overflow-hidden;
+    }
+
+    .stat-value {
+        @apply text-3xl font-extrabold tracking-tight font-mono;
+    }
+
+    .stat-label {
+        @apply text-xs font-semibold text-slate-400 uppercase tracking-wider;
+    }
+
+    .btn-gradient-red {
+        @apply relative inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-accent-red to-pink-600 hover:from-rose-500 hover:to-pink-500 shadow-neon-red transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+    }
+
+    .btn-gradient-yellow {
+        @apply relative inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-950 bg-gradient-to-r from-accent-yellow to-amber-400 hover:from-yellow-300 hover:to-amber-300 shadow-neon-yellow transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+    }
+
+    .btn-gradient-green {
+        @apply relative inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-950 bg-gradient-to-r from-accent-green to-emerald-400 hover:from-emerald-300 hover:to-teal-300 shadow-neon-green transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+    }
+
+    .btn-primary {
+        @apply btn-gradient-red;
+    }
+
+    .btn-secondary {
+        @apply bg-[#161c2c] hover:bg-[#1f273d] text-slate-200 border border-white/10 font-medium py-2.5 px-4 rounded-lg transition-all duration-200;
+    }
+
+    .input-field {
+        @apply bg-[#0a0e17] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-accent-yellow/60 focus:ring-1 focus:ring-accent-yellow/40 transition-all;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border;
+    }
+
+    .badge-minimal {
+        @apply badge bg-accent-green/10 text-accent-green border-accent-green/30;
+    }
+
+    .badge-low {
+        @apply badge bg-lime-500/10 text-lime-400 border-lime-500/30;
+    }
+
+    .badge-medium {
+        @apply badge bg-accent-yellow/10 text-accent-yellow border-accent-yellow/30;
+    }
+
+    .badge-high {
+        @apply badge bg-amber-500/10 text-amber-400 border-amber-500/30;
+    }
+
+    .badge-critical {
+        @apply badge bg-accent-red/10 text-accent-red border-accent-red/30 shadow-[0_0_12px_rgba(255,51,102,0.2)];
+    }
+}

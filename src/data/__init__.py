@@ -1,0 +1,1 @@
+"""Data acquisition, integration, and synthetic data generation."""
