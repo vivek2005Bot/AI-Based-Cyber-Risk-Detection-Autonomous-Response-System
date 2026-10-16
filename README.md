@@ -188,10 +188,12 @@ $$R = w_s \cdot P_{\text{supervised}} + w_a \cdot S_{\text{anomaly}} + w_c \cdot
 * High-contrast glassmorphism aesthetic with **Red-Yellow-Green** color grading.
 * Live REST API integration with FastAPI (`/dashboard`, `/assess-risk`, `/ethics/audit`, `/rl/status`).
 * Pages: *Executive Threat Ops*, *Multimodal Risk Fusion*, *Supervised & DNN Lab*, *Zero-Day Anomaly Radar*, *Autonomous RL Agent*, *Remediation Playbooks*, *Ethics & Defense Audit*.
+* See [REACT_DASHBOARD_GUIDE.md](./REACT_DASHBOARD_GUIDE.md) for a tab-by-tab explanation of dashboard metrics, controls, and which displays are live versus illustrative.
 
 ### 2. Streamlit Interactive SOC Lab
 * Interactive sidebar controls for full parameter experimentation.
 * In-depth feature importance visualizer, SHAP/LIME explainability plots, and database event inspector.
+* See [STREAMLIT_DASHBOARD_GUIDE.md](./STREAMLIT_DASHBOARD_GUIDE.md) for a page-by-page explanation of the Streamlit dashboard, its controls, and computed versus illustrative values.
 
 ---
 
@@ -209,7 +211,7 @@ cd ai-cyber-risk-detection
 
 # Create and activate virtual environment
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv311/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -235,9 +237,9 @@ streamlit run app.py
 #### Option B: Launch FastAPI Backend + React Dashboard
 **Terminal 1 (FastAPI Backend):**
 ```bash
-python main.py api --port 8000 --reload
+python main.py api --port 8001 --reload
 ```
-👉 Interactive Swagger Docs: **[http://localhost:8000/docs](http://localhost:8000/docs)**
+👉 Interactive Swagger Docs: **[http://localhost:8001/docs](http://localhost:8001/docs)**
 
 **Terminal 2 (React Frontend):**
 ```bash
@@ -312,7 +314,7 @@ python main.py multi-agent
 python main.py seed-db --count 150
 
 # Launch FastAPI backend server
-python main.py api --host 0.0.0.0 --port 8000 --reload
+python main.py api --host 0.0.0.0 --port 8001 --reload
 ```
 
 ---

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import { Scale, ShieldCheck, Lock, RefreshCw, AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react'
 import { apiClient } from '../api/client'
 
@@ -13,8 +14,13 @@ export default function EthicsAudit() {
         try {
             const res = await apiClient.auditEthics()
             setAuditData(res.audit)
-        } catch (err: any) {
-            setError('Failed to run ethics audit. Ensure backend server is running.')
+        } catch (err: unknown) {
+            const message = axios.isAxiosError(err)
+                ? err.response?.data?.detail || err.message
+                : err instanceof Error
+                    ? err.message
+                    : 'Unknown error'
+            setError(`Failed to run ethics audit: ${message}. Check that the Cyber Risk API is running at http://localhost:8001.`)
         } finally {
             setLoading(false)
         }

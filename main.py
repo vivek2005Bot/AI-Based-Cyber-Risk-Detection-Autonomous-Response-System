@@ -87,7 +87,7 @@ def cmd_api(args: argparse.Namespace) -> None:
 
     config = get_config()
     host = args.host or config.get("api.host", "0.0.0.0")
-    port = args.port or config.get("api.port", 8000)
+    port = args.port or config.get("api.port", 8001)
 
     print(f"Starting API server at http://{host}:{port}")
     uvicorn.run("src.api.main:app", host=host, port=port, reload=args.reload)
